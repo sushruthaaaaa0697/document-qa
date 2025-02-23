@@ -1,4 +1,6 @@
 import os
+import uuid
+import aiofiles
 from pydantic import BaseModel
 from fastapi.responses import JSONResponse
 from src.text_process.chunking import TextChunker
@@ -19,21 +21,24 @@ class DocumentUploadRequest(BaseModel):
 @ingestion_router.post("/upload-document/")
 async def upload_document(client_id: str = Form(...), document_type: str = Form(...), file: UploadFile = File(...)):
     try:
+        # Ensure the 'temp' directory exists
+        temp_dir = "temp"
+        os.makedirs(temp_dir, exist_ok=True)  # Creates the directory only if it does not exist
+
         # Save uploaded file temporarily
-        temp_file_path = f"temp/{file.filename}"
+        temp_file_path = f"{temp_dir}/{file.filename}"
         with open(temp_file_path, "wb") as buffer:
             buffer.write(await file.read())
 
         # Process the file
         reader = AdapterFactory.get_adapter(document_type)(temp_file_path)
-        print(reader)
-        text = reader.read()
+        text = await reader.read()
 
         chunks = TextChunker(text)
         split = chunks.chunker(client_id, "DriversLicense")
 
         vector_ops = VectorStore()
-        vector_store = vector_ops.get_store(split)
+        vector_store = await vector_ops.get_store(split)
 
         # Clean up: remove the temporary file if needed
         os.remove(temp_file_path)
@@ -42,4 +47,3 @@ async def upload_document(client_id: str = Form(...), document_type: str = Form(
     except Exception as e:
         # In case of any error during file handling or processing
         raise HTTPException(status_code=500, detail=str(e))
-

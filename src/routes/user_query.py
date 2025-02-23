@@ -17,5 +17,5 @@ async def cleanup_api(request: UserRequest):
     results = vector_ops.get_similarity(request.query, str(request.client_id))
 
     input_to_llm = prompt_builder(str(results), request.query)
-    response = answer(input_to_llm)
+    response = await answer(input_to_llm)
     return {"response": response}

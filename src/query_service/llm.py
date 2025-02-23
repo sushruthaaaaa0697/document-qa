@@ -1,7 +1,8 @@
 import ollama
 import logging
 
-def answer(text):
+
+async def answer(text):
     logging.info("Sending text to Ollama for processing.")
 
     response = ollama.chat(

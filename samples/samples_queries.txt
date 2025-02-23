@@ -1,0 +1,11 @@
+jkt_doc_1
+How much will the teachers be paid ?
+
+jkt_doc_2
+What is the document related to?
+What is the date on which the interview was conducted
+
+jkt_doc_3
+According to the document, what is the main cause of pollution?
+What are some green house gases that are mentioned on the document?
+

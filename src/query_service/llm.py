@@ -23,6 +23,8 @@ def prompt_builder(text, user_query):
 
     Using the information in the text, answer precisely to the questions given to you.
     {user_query}
+    
+    If there is no text from the document, please reply back politely saying you cannot answer this question now
 """
     logging.info("Prompt successfully constructed.")
     return prompt

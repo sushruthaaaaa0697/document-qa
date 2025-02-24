@@ -21,7 +21,7 @@ curl --location 'http://0.0.0.0:8080/document/upload-document/' \
    
    This endpoint takes in the user's queries. The query of the user is internally converted to vector and a similarity 
    search is done to fetch the most similar chunks of the document to the user query. The user query and the chunks of 
-    text is sent to the LLM. 
+   text is sent to the LLM. 
 
 Sample documents to run are given in the /samples folder. Along with the sample documents, sample questions are also 
 provided. This could help user to understand the kind of questions that can be asked to the model. 
